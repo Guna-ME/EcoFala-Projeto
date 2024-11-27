@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, SafeAreaView, Image, Button, View, Alert, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import globalStyles from '../Styles';
 
 // Lista de histórias
 const historias = [
@@ -97,29 +98,17 @@ const historias = [
 
 export default function Cenarios({ navigation }) {
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20, backgroundColor: '#FFF', alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 36, color: '#72C3B2', marginBottom: 40, textAlign: 'center' }}>
-        Escolha um Cenário
-      </Text>
+    <SafeAreaView style={globalStyles.cenariosContainer}>
+      <Text style={globalStyles.titulo}>Escolha um Cenário</Text>
       <FlatList
         data={historias}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={{
-              width: '90%',
-              padding: 15,
-              marginVertical: 10,
-              backgroundColor: '#72C3B2',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            style={globalStyles.cenarioItem}
             onPress={() => navigation.navigate('Historia', { historia: item })}
           >
-            <Text style={{ color: '#FFF', fontSize: 18, fontWeight: 'bold' }}>
-              {item.titulo}
-            </Text>
+            <Text style={globalStyles.cenarioTitulo}>{item.titulo}</Text>
           </TouchableOpacity>
         )}
       />
