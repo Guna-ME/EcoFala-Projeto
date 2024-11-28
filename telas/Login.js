@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import globalStyles from '../Styles';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ export default function Login({ navigation }) {
     }
 
     // Verifica se a senha tem no mínimo 6 caracteres
-    if (senha.length < 6) {
+    /*if (senha.length < 6) {
       Alert.alert('Erro', 'A senha deve ter no mínimo 6 caracteres!');
       return;
     }
@@ -37,7 +38,26 @@ export default function Login({ navigation }) {
     } else {
       // Caso o e-mail ou a senha estejam incorretos
       Alert.alert('Erro', 'E-mail ou senha incorretos!');
-    }
+    }*/
+
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, email, senha)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log("User logado", user);
+          navigation.navigate('Pacientes'); // Redireciona para a tela "Pacientes"
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          Alert.alert('Erro', 'E-mail ou senha incorretos!');
+        });
+
+
+
+
   };
 
   return (

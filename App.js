@@ -12,10 +12,13 @@ import Relatorio from './telas/Relatorio';
 import ListarRelatorios from './telas/ListarRelatorios';
 import Cenarios from './telas/Cenarios'; // Tela de escolha de cenários
 import Historia from './telas/Historia'; // Tela para exibir a história escolhida
+import { initFirebase } from './firebaseConfig';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  initFirebase();
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
