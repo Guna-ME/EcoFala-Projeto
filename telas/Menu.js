@@ -23,7 +23,7 @@ export default function MainScreen({ navigation, route }) {
         style={globalStyles.menuButton} 
         onPress={() => navigation.navigate('GerarCenario')}  
       >
-        <Text style={globalStyles.menuButtonText}>CENÁRIOS</Text>
+        <Text style={globalStyles.menuButtonText}>GERAR CENÁRIO</Text>
       </TouchableOpacity>
 
       {/* Botão para Visualizar Relatórios */}

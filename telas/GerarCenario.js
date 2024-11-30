@@ -1,128 +1,80 @@
 import React, { useState } from 'react';
-import { Text, SafeAreaView, Image, Button, View, Alert, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import globalStyles from '../Styles';
 
-// Lista de histórias
-const historias = [
-  {
-    id: '1',
-    titulo: 'O Leão e o Ratinho',
-    partes: [
-      {
-        text: "Era uma vez, em uma floresta, um leão adormeceu à sombra de uma árvore. Um ratinho curioso passou correndo pelo rabo do leão e o acordou.",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Pedir desculpas.",
-          incorrect: "Correr sem olhar para trás.",
-        },
+// Função para chamar a API de IA
+const gerarCenarioIA = async (titulo, descricao) => {
+  try {
+    const response = await fetch('SUA_API_URL_AQUI', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+       
       },
-      {
-        text: "O leão segurou o ratinho com sua grande pata. O que o ratinho deveria fazer?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Prometer ajudar o leão no futuro.",
-          incorrect: "Pedir para ser comido.",
-        },
-      },
-      {
-        text: "Alguns dias depois, o leão ficou preso em uma rede. O que o ratinho fez?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Roer a rede para salvar o leão.",
-          incorrect: "Fugir e ignorar o leão.",
-        },
-      },
-    ],
-  },
-  {
-    id: '2',
-    titulo: 'A Tartaruga e a Lebre',
-    partes: [
-      {
-        text: "Um dia, uma lebre desafiou uma tartaruga para uma corrida. A lebre achava que venceria facilmente.",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Aceitar o desafio.",
-          incorrect: "Recusar a corrida.",
-        },
-      },
-      {
-        text: "No meio da corrida, a lebre decidiu descansar. O que a tartaruga deveria fazer?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Continuar correndo sem parar.",
-          incorrect: "Esperar a lebre.",
-        },
-      },
-      {
-        text: "A tartaruga cruzou a linha de chegada enquanto a lebre ainda dormia. Qual é a lição?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Devagar e sempre vence a corrida.",
-          incorrect: "Não desafiar os mais rápidos.",
-        },
-      },
-    ],
-  },
-  {
-    id: '3',
-    titulo: 'Os Três Porquinhos',
-    partes: [
-      {
-        text: "Três porquinhos decidiram construir suas casas. O primeiro fez sua casa de palha. O que o segundo deveria usar?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Madeira.",
-          incorrect: "Papel.",
-        },
-      },
-      {
-        text: "O terceiro porquinho fez sua casa de tijolos. O lobo veio e tentou derrubá-la. O que ele deveria fazer?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Ficar dentro da casa e esperar.",
-          incorrect: "Sair correndo.",
-        },
-      },
-      {
-        text: "O lobo tentou entrar pela chaminé. O que os porquinhos deveriam fazer?",
-        image: "https://via.placeholder.com/150",
-        choices: {
-          correct: "Acender o fogo na lareira.",
-          incorrect: "Abrir a porta.",
-        },
-      },
-    ],
-  },
-];
+      body: JSON.stringify({
+        prompt: `Crie um cenário de conversa com o título "${titulo}" e a descrição "${descricao}".`,
+      }),
+    });
 
-export default function Cenarios({ navigation }) {
+    const data = await response.json();
+    return data.cenario;
+  } catch (error) {
+    console.error('Erro ao chamar a API:', error);
+    throw error;
+  }
+};
+
+export default function GerarCenario() {
+  const [titulo, setTitulo] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [cenarioGerado, setCenarioGerado] = useState('');
+
+  const handleGerar = async () => {
+    if (!titulo || !descricao) {
+      Alert.alert('Erro', 'Por favor, preencha o título e a descrição.');
+      return;
+    }
+
+    try {
+      const cenario = await gerarCenarioIA(titulo, descricao);
+      setCenarioGerado(cenario);
+      setTitulo('');
+      setDescricao('');
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível gerar o cenário. Tente novamente.');
+    }
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20, backgroundColor: '#FFF', alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 36, color: '#72C3B2', marginBottom: 40, textAlign: 'center' }}>
-        Escolha um Cenário
-      </Text>
-      <FlatList
-        data={historias}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{
-              width: '90%',
-              padding: 15,
-              marginVertical: 10,
-              backgroundColor: '#72C3B2',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={() => navigation.navigate('Historia', { historia: item })}
-          >
-            <Text style={{ color: '#FFF', fontSize: 18, fontWeight: 'bold' }}>
-              {item.titulo}
-            </Text>
-          </TouchableOpacity>
-        )}
+    <View style={globalStyles.cenarioContainer}>
+      <Text style={globalStyles.headerGerar}>CENÁRIO PERSONALIZADO</Text>
+
+      <TextInput
+        style={globalStyles.inputCenario}
+        placeholder="Título"
+        placeholderTextColor="#666"
+        value={titulo}
+        onChangeText={setTitulo}
       />
-    </SafeAreaView>
+      <TextInput
+        style={globalStyles.textAreaCenario}
+        placeholder="Descrição do cenário"
+        placeholderTextColor="#666"
+        multiline
+        numberOfLines={4}
+        value={descricao}
+        onChangeText={setDescricao}
+      />
+
+      <TouchableOpacity style={globalStyles.cadastroButton} onPress={handleGerar}>
+        <Text style={globalStyles.cadastroButtonText}>Gerar</Text>
+      </TouchableOpacity>
+
+      {cenarioGerado ? (
+        <View style={globalStyles.cenarioContainer}>
+          <Text style={globalStyles.cenarioText}>{cenarioGerado}</Text>
+        </View>
+      ) : null}
+    </View>
   );
 }
