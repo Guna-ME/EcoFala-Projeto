@@ -1,12 +1,11 @@
 import { Text, SafeAreaView, TextInput, ScrollView, Alert, TouchableOpacity } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import globalStyles from '../Styles'; 
 
 export default function Cadastro({ navigation, route }) {
   const pacienteSelecionado = route.params?.pacienteSelecionado;
 
-  // Inicializa o estado com os dados do paciente selecionado ou com valores em branco (para cadastro)
-  const [inputs, setInputs] = useState([
+  const [inputs, setInputs] = useState(() => [
     pacienteSelecionado?.nome || '',
     pacienteSelecionado?.dataNascimento || '',
     pacienteSelecionado?.sexo || '',
@@ -19,7 +18,7 @@ export default function Cadastro({ navigation, route }) {
     pacienteSelecionado?.medicacoes || '',
     pacienteSelecionado?.sensibilidades || '',
     pacienteSelecionado?.habilidadesComunicacao || '',
-    pacienteSelecionado?.habilidadesSociais || ''
+    pacienteSelecionado?.habilidadesSociais || '',
   ]);
 
   const handleInputChange = (text, index) => {
@@ -30,33 +29,8 @@ export default function Cadastro({ navigation, route }) {
 
   const handleSubmit = () => {
     if (pacienteSelecionado) {
-      // Atualiza o paciente selecionado
       const updatedPaciente = {
-        ...pacienteSelecionado, // Mantém os dados anteriores
-        nome: inputs[0],
-        dataNascimento: inputs[1],
-        sexo: inputs[2],
-        endereco: inputs[3],
-        contatoEmergencia: inputs[4],
-        diagnostico: inputs[5],
-        comorbidades: inputs[6],
-        alergias: inputs[7],
-        historicoMedico: inputs[8],
-        medicacoes: inputs[9],
-        sensibilidades: inputs[10],
-        habilidadesComunicacao: inputs[11],
-        habilidadesSociais: inputs[12]
-      };
-
-      // Atualiza o paciente na lista (você pode armazenar isso em um estado global ou na navegação)
-      Alert.alert('Cadastro', `Dados do paciente ${updatedPaciente.nome} atualizados com sucesso!`);
-
-      // Volta para a tela de Pacientes com o paciente atualizado
-      navigation.navigate('Pacientes', { pacienteAtualizado: updatedPaciente });
-    } else {
-      // Cadastro de novo paciente
-      const novoPaciente = {
-        id: new Date().toISOString(), // Gera um ID único
+        ...pacienteSelecionado,
         nome: inputs[0],
         dataNascimento: inputs[1],
         sexo: inputs[2],
@@ -70,13 +44,30 @@ export default function Cadastro({ navigation, route }) {
         sensibilidades: inputs[10],
         habilidadesComunicacao: inputs[11],
         habilidadesSociais: inputs[12],
-        foto: 'https://via.placeholder.com/100' // Foto padrão para novos pacientes
       };
 
-      // Adiciona o novo paciente (aqui você deve armazenar em um estado global ou banco de dados)
-      Alert.alert('Cadastro', `Novo paciente ${novoPaciente.nome} cadastrado com sucesso!`);
+      Alert.alert('Cadastro', `Dados do paciente ${updatedPaciente.nome} atualizados com sucesso!`);
+      navigation.navigate('Pacientes', { pacienteAtualizado: updatedPaciente });
+    } else {
+      const novoPaciente = {
+        id: new Date().toISOString(),
+        nome: inputs[0],
+        dataNascimento: inputs[1],
+        sexo: inputs[2],
+        endereco: inputs[3],
+        contatoEmergencia: inputs[4],
+        diagnostico: inputs[5],
+        comorbidades: inputs[6],
+        alergias: inputs[7],
+        historicoMedico: inputs[8],
+        medicacoes: inputs[9],
+        sensibilidades: inputs[10],
+        habilidadesComunicacao: inputs[11],
+        habilidadesSociais: inputs[12],
+        foto: 'https://via.placeholder.com/100',
+      };
 
-      // Volta para a tela de Pacientes com o novo paciente
+      Alert.alert('Cadastro', `Novo paciente ${novoPaciente.nome} cadastrado com sucesso!`);
       navigation.navigate('Pacientes', { novoPaciente });
     }
   };
@@ -110,7 +101,6 @@ export default function Cadastro({ navigation, route }) {
             />
           </SafeAreaView>
         ))}
-
         <TouchableOpacity 
           style={globalStyles.cadastroButton} 
           onPress={handleSubmit} 

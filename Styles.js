@@ -332,7 +332,118 @@ const globalStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  
-});
+  // Estilo para a tela de cenários
+  cenariosContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#e8f4f8',
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#1e88e5',
+  },
+  cenarioItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginBottom: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  cenarioTitulo: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+    flex: 1,
+  },
+  cenarioImagem: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    marginLeft: 10,
+  },
 
-export default globalStyles;
+  // Estilo para os cards
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  cardTitulo: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#444444',
+  },
+  cardDescricao: {
+    fontSize: 16,
+    color: '#666666',
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#777777',
+  },
+  button: {
+    marginTop: 10,
+    backgroundColor: '#1e88e5',
+    borderRadius: 8,
+    padding: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  // Estilo para a tela de história
+  historiaContainer: {
+    flex: 1,
+    padding: 30,
+    backgroundColor: '#f2f2f2',
+    justifyContent: 'space-between',
+  },
+  historiaImagem: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  historiaTexto: {
+    fontSize: 18,
+    color: '#72C3B2',
+    marginBottom: 50,
+  },
+  opcoesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  opcaoButton: {
+    backgroundColor: '#72C3B2',
+    borderRadius: 8,
+    padding: 15,
+    width: '45%',
+    alignItems: 'center',
+  },
+  opcaoTexto: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  });
+
+  export default globalStyles;

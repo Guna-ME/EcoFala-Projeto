@@ -12,6 +12,7 @@ import Relatorio from './telas/Relatorio';
 import ListarRelatorios from './telas/ListarRelatorios';
 import Cenarios from './telas/Cenarios'; // Tela de escolha de cenários
 import Historia from './telas/Historia'; // Tela para exibir a história escolhida
+import Resumo from './telas/Resumo'; // Tela de resumo
 import { initFirebase } from './firebaseConfig';
 
 const Stack = createStackNavigator();
@@ -21,7 +22,7 @@ export default function App() {
   
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="GerarCenario">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -67,17 +68,21 @@ export default function App() {
           component={ListarRelatorios}
           options={{ title: 'Listar Relatórios' }}
         />
-        {/* Adicionando a tela de escolha de cenários */}
         <Stack.Screen
           name="Cenarios"
           component={Cenarios}
           options={{ title: 'Escolher Cenários' }}
         />
-        {/* Adicionando a tela de exibição de história */}
         <Stack.Screen
           name="Historia"
           component={Historia}
           options={{ title: 'História' }}
+        />
+        {/* Adicionando a tela de resumo */}
+        <Stack.Screen
+          name="Resumo"
+          component={Resumo}
+          options={{ title: 'Resumo da História' }}
         />
       </Stack.Navigator>
       <StatusBar style="auto" />
